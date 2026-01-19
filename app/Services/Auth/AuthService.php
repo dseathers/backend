@@ -1,24 +1,26 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Auth;
 
 use Tymon\JWTAuth\Facades\JWTAuth;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\ValidationException;
+
 
 class AuthService
 {
     public function login(array $credentials): array
     {
         if (!$token = JWTAuth::attempt($credentials)) {
-            throw ValidationException::withMessages([
-                'email' => ['Invalid email or password.'],
-            ]);
+            return [
+                'status'  => 400,
+                'process' => 'failed',
+                'message' => 'Invalid check your credential'
+            ];
         }
 
         return [
-            'user'  => Auth::user(),
-            'token' => $token,
+            'status'  => 200,
+            'process' => 'success',
+            'token'   => $token
         ];
     }
 }
