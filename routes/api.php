@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 Route::get('/user', function (Request $request) {
@@ -10,3 +11,4 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::post('/user-login', LoginController::class);
+Route::post('/user-register', RegisterController::class);
