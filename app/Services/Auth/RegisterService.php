@@ -23,11 +23,11 @@ class RegisterService
             return [
                 'status'=> '400',
                 'process'=> 'failed',
-                'message detail'=> $validator->error()
+                'message detail'=> $validator->errors()
             ];
         }
 
-        $user = User::Create([
+        User::Create([
             'name'=> $data['name'],
             'email'=> $data['email'],
             'phone'=> $data['phone'],
