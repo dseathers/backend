@@ -7,6 +7,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -18,7 +19,23 @@ class User extends Authenticatable implements JWTSubject
      *
      * @var list<string>
      */
+
+    protected static function booted()
+    {
+        static::creating(function ($user) {
+            if (!$user->id) {
+                do {
+                    $user->id = Str::upper(Str::random(16)); // huruf + angka
+                } while (self::where('id', $user->id)->exists());
+            }
+        });
+    }
+
+    protected $keyType = 'string';     
+    public $incrementing = false;
+
     protected $fillable = [
+        'id',
         'name',
         'email',
         'phone',

@@ -4,16 +4,15 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Services\Auth\RegisterService;
+use App\Http\Requests\Validators\Auth\RegisterRequest;
 use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
-    public function __invoke(Request $request, RegisterService $registerService){
-        $result = $registerService->register($request->all());
-
+    public function __invoke(RegisterRequest $request, RegisterService $service)
+    {
         return response()->json(
-            $result,
-            $result['status']
+            $service->register($request->validated())
         );
     }
 }
